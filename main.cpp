@@ -2,54 +2,81 @@
 #include <vector>
 using namespace std;
 
-int capacidad;
-int numero_pi;
-int numero_su;
-int numero_pl;
-int numero_di;
+int capacidad = 512;  // Capacidad global para todos los sectores
+int numero_pi = 4;
+int numero_su = 2;
+int numero_pl = 4;
+int numero_di = 4;
 
-struct Sector
-{
-	Sector()
-	{
-	}
+struct Sector {
+    int id;          // Identificador único del sector
+    int capacidad;   // Capacidad del sector
+
+    Sector(int id_, int capacidad_) : id(id_), capacidad(capacidad_) {}
 };
 
-struct Pista
-{
-	Pista()
-	{
-		vector<Sector> sectores(numero_pi);
-	}
+struct Pista {
+    vector<Sector> sectores;
+    int id;  // Identificador único de la pista
+
+    Pista(int id_) : id(id_) {
+        for (int i = 0; i < numero_pi; i++) {
+            sectores.emplace_back(i, capacidad);
+        }
+    }
 };
 
-struct Superficie
-{
-	Superficie()
-	{
-		vector<Pista> pistas(numero_su);
-	}
+struct Superficie {
+    vector<Pista> pistas;
+    int id;  // Identificador único de la superficie
+
+    Superficie(int id_) : id(id_) {
+        for (int i = 0; i < numero_su; i++) {
+            pistas.emplace_back(i);
+        }
+    }
 };
 
-struct Plato
-{
-	Plato()
-	{
-		numero_pl = 2;
-		vector<Superficie>superficies(numero_pl);
-	}
+struct Plato {
+    vector<Superficie> superficies;
+    int id;  // Identificador único del plato
+
+    Plato(int id_) : id(id_) {
+        for (int i = 0; i < numero_pl; i++) {
+            superficies.emplace_back(i);
+        }
+    }
 };
 
-struct Disk_Deque
-{
-	Disk_Deque()
-	{
-		vector<Plato>platos(numero_di);
-	}
+struct Disk_Deque {
+    vector<Plato> platos;
+
+    Disk_Deque() {
+        for (int i = 0; i < numero_di; i++) {
+            platos.emplace_back(i);
+        }
+    }
+
+    // Método para mostrar la estructura del disco
+    void mostrar() const {
+        for (int i = 0; i < platos.size(); i++) {
+            cout << "Plato " << i + 1 << ":" << endl;
+            for (int j = 0; j < platos[i].superficies.size(); j++) {
+                cout << "  Superficie " << j + 1 << ":" << endl;
+                for (int k = 0; k < platos[i].superficies[j].pistas.size(); k++) {
+                    cout << "    Pista " << k + 1 << ":" << endl;
+                    for (int l = 0; l < platos[i].superficies[j].pistas[k].sectores.size(); l++) {
+                        cout << "      Sector " << l + 1
+                            << " (Capacidad: " << platos[i].superficies[j].pistas[k].sectores[l].capacidad << ")" << endl;
+                    }
+                }
+            }
+        }
+    }
 };
 
-int main()
-{
-	cin >> numero_di >> numero_su >> numero_pi >> capacidad;
-	Disk_Deque disco;
+int main() {
+    Disk_Deque disco;
+    disco.mostrar();
+    return 0;
 }
