@@ -4,7 +4,7 @@ class Sector:
         self.capacidad = capacidad  # Capacidad en bytes del sector
 
     def __str__(self):
-        return f"Sector {self.id} (Capacidad: {self.capacidad} bytes)"
+        return f"Sector {self.id+1} (Capacidad: {self.capacidad} bytes)"
 
 
 class Pista:
@@ -48,21 +48,21 @@ class Disco:
 
     def mostrar(self):
         for plato in self.platos:
-            print(f"Plato {plato.id}:")
+            print(f"Plato {plato.id+1}:")
             for superficie in plato.superficies:
-                print(f"  Superficie {superficie.id}:")
+                print(f"  Superficie {superficie.id+1}:")
                 for pista in superficie.pistas:
-                    print(f"    Pista {pista.id}:")
+                    print(f"    Pista {pista.id+1}:")
                     for sector in pista.sectores:
                         print(f"      {sector}")
 
 
 # Configuración del disco
-NUM_PLATOS = 2
+NUM_PLATOS = int(input("numero de platos: "))
 NUM_SUPERFICIES = 2
-NUM_PISTAS = 3
-NUM_SECTORES = 4
-CAPACIDAD_SECTOR = 512  # Capacidad de cada sector en bytes
+NUM_PISTAS = int(input("numero de pistas: "))
+NUM_SECTORES = int(input("numero de sectores: "))
+CAPACIDAD_SECTOR = int(input("capacidad de cada sector: "))  # Capacidad de cada sector en bytes
 
 # Crear y mostrar el disco
 disco = Disco(NUM_PLATOS, NUM_SUPERFICIES, NUM_PISTAS, NUM_SECTORES, CAPACIDAD_SECTOR)
