@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <regex>
 using namespace std;
 
 int capacidad;  // Capacidad global para todos los sectores
@@ -82,8 +83,7 @@ struct Disk_Deque {
             return 4; // Enteros ocupan 4 unidades
         }
         else if (tipo == "varchar") {
-            
-            return 3;
+            return 1 * dato.size(); // Cada carácter ocupa 3 unidades
         }
         else if (tipo == "decimal") {
             return 8; // Decimales ocupan 8 unidades
@@ -91,8 +91,27 @@ struct Disk_Deque {
         return 0; // Tipo desconocido
     }
 
+    // Valida el dato según su tipo
+    bool validar_dato(const string& tipo, const string& dato) {
+        if (tipo == "int") {
+            return regex_match(dato, regex("^-?\\d+$")); // Verifica que sea un número entero
+        }
+        else if (tipo == "decimal") {
+            return regex_match(dato, regex("^-?\\d+\\.\\d+$")); // Verifica formato decimal
+        }
+        else if (tipo == "varchar") {
+            return regex_search(dato, regex("[a-zA-Z]")); // Contiene al menos una letra
+        }
+        return false; // Tipo desconocido
+    }
+
     // Almacena un dato en el primer sector disponible
     void almacenar_dato(const string& tipo, const string& dato) {
+        if (!validar_dato(tipo, dato)) {
+            cout << "Error: El dato '" << dato << "' no es válido para el tipo '" << tipo << "'." << endl;
+            return;
+        }
+
         int espacio_necesario = calcular_espacio(tipo, dato);
 
         for (auto& plato : platos) {
