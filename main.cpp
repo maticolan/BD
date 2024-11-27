@@ -2,11 +2,11 @@
 #include <vector>
 using namespace std;
 
-int capacidad = 512;  // Capacidad global para todos los sectores
-int numero_pi = 4;
+int capacidad;  // Capacidad global para todos los sectores
+int numero_pi;
 int numero_su = 2;
-int numero_pl = 4;
-int numero_di = 4;
+int numero_pl;
+int numero_di;
 
 struct Sector {
     int id;          // Identificador único del sector
@@ -76,6 +76,14 @@ struct Disk_Deque {
 };
 
 int main() {
+    cout << "numero de platos: ";
+    cin >> numero_di;
+    cout << "numero de pistas: ";
+    cin >> numero_pl;
+    cout << "numero de sectores: ";
+    cin >> numero_pi;
+    cout << "capacidad de sector: ";
+    cin >> capacidad;
     Disk_Deque disco;
     disco.mostrar();
     return 0;
